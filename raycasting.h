@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/21 06:22:55 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:37:56 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void					render_minimap(t_game *game);
 void					render_game_in_3D(t_game *game);
 void					show_data_of_rays(t_game *game);
 void					initialize_player_position(t_game *game,
-							char initial_map[MAP_HEIGHT][MAP_WIDTH]);
+							t_map *map);
 void					initialize_map_grid(t_game *game,
 							char initial_map[MAP_HEIGHT][MAP_WIDTH]);
 void					calculate_check_coordinates(int direction,

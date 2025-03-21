@@ -6,34 +6,11 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/21 06:41:32 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/21 20:03:06 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
-
-char initial_map[MAP_HEIGHT][MAP_WIDTH] = {{'1', '1', '1', '1', '1', '1',
-											'1', '1', '1', '1', '1', '1', '1', '1', '1'},
-										   {'1', '0', '0', '0', '0',
-											'0', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
-										   {'1', '0', '0', '1',
-											'0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
-										   {'1', '1', '1',
-											'0', '1', '0', '0', '0', '0', '0', '1', '0', '1', '0', '1'},
-										   {'1', '0',
-											'0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1', '0', '1'},
-										   {'1',
-											'0', '1', '0', '0', '0', '0', '1', '1', '1', '1', '1', '1', '0', '1'},
-										   {'1', '0', '0', 'P', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-											'1'},
-										   {'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-											'0', '1'},
-										   {'1', '1', '1', '1', '1', '1', '0', '0', '0', '1', '1', '1',
-											'1', '0', '1'},
-										   {'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-											'0', '0', '0', '1'},
-										   {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-											'1', '1', '1', '1', '1'}};
 
 void update_player(t_game *game)
 {
@@ -62,7 +39,7 @@ void init_game(t_game *game, t_pos pos)
 							   "Raycaster");
 	game->player = (t_player){.radius = 3, .move_speed = 1, .rotation_angle = M_PI / 2, .turn_direction = 0, .walk_direction = 0, .strafe_direction = 0, .rotation_speed = 0.4 * (M_PI / 180), .x = pos.x, .y = pos.y};
 	// draw_map(game, game->map.grid);
-	// initialize_player_position(game, game->map.grid);
+	initialize_player_position(game, &game->map);
 	// initialize_map_grid(game, game->map.grid);
 	game->img = mlx_new_image(game->mlx, game->window_width, game->window_height);
 	game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line,
@@ -76,7 +53,7 @@ int game_loop(t_game *game)
 	cast_all_rays(game);
 	// show_data_of_rays(game);
 	render_game_in_3D(game);
-	//render_minimap(game);
+	render_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
