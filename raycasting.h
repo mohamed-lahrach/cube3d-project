@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/20 00:40:14 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:22:55 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# define TILE_SIZE 64
+# define TILE_SIZE 32
 # define MAP_WIDTH 15
 # define MAP_HEIGHT 11
 # define SCREEN_WIDTH (TILE_SIZE * MAP_WIDTH)
@@ -112,10 +112,12 @@ typedef struct s_game
 	int					endian;
 	t_intercept_data	vert_intercept_data;
 	t_intercept_data	horz_intercept_data;
+	int					window_width;
+	int					window_height;
 	t_map				map;
 	t_player			player;
 	t_pos				pos;
-	t_ray				rays[NUM_RAYS];
+	t_ray				*rays;
 	t_components		*components;
 	int					ceiling_color;
 	int					floor_color;
@@ -154,7 +156,7 @@ void					cast_all_rays(t_game *game);
 void					draw_rays(t_game *game, float factor);
 void					render_game_in_3D(t_game *game);
 int						game_loop(t_game *game);
-void					init_game(t_game *game, t_pos *pos);
+void					init_game(t_game *game, t_pos pos);
 void					render_minimap(t_game *game);
 void					render_game_in_3D(t_game *game);
 void					show_data_of_rays(t_game *game);

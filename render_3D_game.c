@@ -6,7 +6,7 @@ void	draw_ceiling(t_game *game, int start_y, int end_y, int ray_index,
 	int	wall_strip_width;
 	int	pixel;
 
-	wall_strip_width = SCREEN_WIDTH / NUM_RAYS;
+	wall_strip_width = game->window_width / (game->window_width / 1);
 	for (int y = start_y; y < end_y; y++)
 	{
 		pixel = (y * game->size_line) + (ray_index * wall_strip_width
@@ -25,7 +25,7 @@ void	draw_wall_strip(t_game *game, int wall_top, int wall_bottom,
 	int		color;
 	int		pixel;
 
-	wall_strip_width = SCREEN_WIDTH / NUM_RAYS;
+	wall_strip_width = game->window_width / (game->window_width / 1);
 	ray = game->rays[ray_index];
 	if (ray.was_hit_vertical)
 		color = 0xFF0000;
@@ -47,7 +47,7 @@ void	draw_floor(t_game *game, int start_y, int end_y, int ray_index,
 	int	wall_strip_width;
 	int	pixel;
 
-	wall_strip_width = SCREEN_WIDTH / NUM_RAYS;
+	wall_strip_width = game->window_width / (game->window_width / 1);
 	for (int y = start_y; y < end_y; y++)
 	{
 		pixel = (y * game->size_line) + (ray_index * wall_strip_width
@@ -72,22 +72,22 @@ void	render_game_in_3D(t_game *game)
 	i = 0;
 	ceiling_color = 0x87CEEB;
 	floor_color = 0x8B4513;
-	while (i < NUM_RAYS)
+	while (i < game->window_width / 1)
 	{
 		ray = game->rays[i];
 		perp_distance = ray.distance * cos(ray.ray_angle
 				- game->player.rotation_angle);
 		wall_strip_height = (int)((TILE_SIZE / perp_distance)
 				* DIST_PROJ_PLANE);
-		wall_top_pixel = (SCREEN_HEIGHT / 2) - (wall_strip_height / 2);
+		wall_top_pixel = (game->window_height / 2) - (wall_strip_height / 2);
 		if (wall_top_pixel < 0)
 			wall_top_pixel = 0;
-		wall_bottom_pixel = (SCREEN_HEIGHT / 2) + (wall_strip_height / 2);
-		if (wall_bottom_pixel > SCREEN_HEIGHT)
-			wall_bottom_pixel = SCREEN_HEIGHT;
+		wall_bottom_pixel = (game->window_height / 2) + (wall_strip_height / 2);
+		if (wall_bottom_pixel > game->window_height)
+			wall_bottom_pixel = game->window_height;
 		draw_ceiling(game, 0, wall_top_pixel, i, ceiling_color);
 		draw_wall_strip(game, wall_top_pixel, wall_bottom_pixel, i);
-		draw_floor(game, wall_bottom_pixel, SCREEN_HEIGHT, i, floor_color);
+		draw_floor(game, wall_bottom_pixel, game->window_height, i, floor_color);
 		i++;
 	}
 }

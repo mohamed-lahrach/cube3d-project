@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 00:20:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/19 23:42:49 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:38:51 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	initialize_player_position(t_game *game,
 		j = 0;
 		while (j < MAP_WIDTH)
 		{
-			if (initial_map[i][j] == 'P')
+			if (initial_map[i][j] == 'N')
 			{
 				game->player.x = j * TILE_SIZE + TILE_SIZE / 2;
 				game->player.y = i * TILE_SIZE + TILE_SIZE / 2;
@@ -64,7 +64,7 @@ int	has_wall_at(float x, float y, t_map *map)
 	map_y = (int)(y / TILE_SIZE);
 	if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
 		return (1);
-	return (map->grid[map_y][map_x] == '1');
+	return (map->grid[map_y ][map_x] == '1');
 }
 
 int	can_move_to(float newX, float newY, t_game *game)

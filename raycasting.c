@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:05 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/19 23:56:14 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:23:44 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	perform_dda(t_game *game, t_intercept_data *data, int direction)
 	float	check_x;
 	float	check_y;
 
-	while (data->next_touch_x >= 0 && data->next_touch_x <= SCREEN_WIDTH
-		&& data->next_touch_y >= 0 && data->next_touch_y <= SCREEN_HEIGHT)
+	while (data->next_touch_x >= 0 && data->next_touch_x <= game->window_width
+		&& data->next_touch_y >= 0 && data->next_touch_y <= game->window_height)
 	{
 		calculate_check_coordinates(direction, data, &check_x, &check_y);
 		if (has_wall_at(check_x, check_y, &game->map))
@@ -113,10 +113,11 @@ void	cast_all_rays(t_game *game)
 
 	ray_angle = game->player.rotation_angle - (FOV_ANGLE / 2);
 	i = 0;
-	while (i < NUM_RAYS)
+	game->rays = malloc(sizeof(t_ray) * game->window_width / 1);
+	while (i < game->window_width / 1)
 	{
 		game->rays[i] = cast_ray(game, ray_angle);
-		ray_angle += FOV_ANGLE / NUM_RAYS;
+		ray_angle += FOV_ANGLE / game->window_width / 1;
 		i++;
 	}
 }

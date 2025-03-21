@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 01:10:53 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/09 01:10:54 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:22:11 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	draw_rays(t_game *game, float factor)
 {
-	for (int i = 0; i < NUM_RAYS; i++)
+	for (int i = 0; i < game->window_width / 1; i++)
 	{
 		draw_line(game->img_data, factor * game->player.x, factor
 			* game->player.y, factor * game->rays[i].wall_hit_x, factor
@@ -154,7 +154,7 @@ void	render_minimap(t_game *game)
 		player_minimap_radius, RED_COLOR, game->size_line, game->bpp);
 
 	// Draw the rays in the mini-map
-	for (int i = 0; i < NUM_RAYS; i++)
+	for (int i = 0; i < game->window_width / 1; i++)
 	{
 		// Scale the ray's start and end points to the mini-map size
 		if (1)
