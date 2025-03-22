@@ -6,14 +6,14 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/21 19:37:56 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 06:25:23 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYCASTING_H
 # define RAYCASTING_H
 
-# include "minilibx-linux/mlx.h" // Corrected include directive
+# include "minilibx-linux/mlx.h"
 # include "inc/parsing.h"
 # include "inc/cub3d.h"
 # include <float.h>
@@ -21,11 +21,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# define TILE_SIZE 32
-# define MAP_WIDTH 15
-# define MAP_HEIGHT 11
-# define SCREEN_WIDTH (TILE_SIZE * MAP_WIDTH)
-# define SCREEN_HEIGHT (TILE_SIZE * MAP_HEIGHT)
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+# define SCREEN_WIDTH 1200
+# define SCREEN_HEIGHT 800
 # define GRAY_COLOR 0xCCCCCC
 # define BLACK_COLOR 0x000000
 # define RED_COLOR 0xFF0000
@@ -45,18 +43,6 @@
 # define MINIMAP_SCALE_FACTOR 0.3
 # define HORIZONTAL 0
 # define VERTICAL 1
-
-// typedef struct s_map
-// {
-// 	int					grid[MAP_HEIGHT][MAP_WIDTH];
-// }						t_map;
-// typedef struct s_player_parser
-// {
-// 	t_pos				pos;
-// 	t_pos				pos_in_pix;
-// 	char				orientation;
-// 	double				angle;
-// }						t_player;
 typedef struct s_player
 {
 	float				x;
@@ -95,12 +81,11 @@ typedef struct s_intercept_data
 	float				next_touch_y;
 	int					subtract_one;
 }						t_intercept_data;
-// t_player		player;
-// t_map			map;
-// t_components	*components;
-// int				ceiling_color;
-// int				floor_color;
-
+typedef struct s_tile_size
+{
+	int					width;
+	int					height;
+}						t_tile_size;
 typedef struct s_game
 {
 	void				*mlx;
@@ -112,32 +97,21 @@ typedef struct s_game
 	int					endian;
 	t_intercept_data	vert_intercept_data;
 	t_intercept_data	horz_intercept_data;
-	int					window_width;
-	int					window_height;
+	t_tile_size			tile_size;
+	int					columns;
+	int					rows;
 	t_map				map;
 	t_player			player;
 	t_pos				pos;
-	t_ray				*rays;
+	t_ray				rays[NUM_RAYS];
 	t_components		*components;
 	int					ceiling_color;
 	int					floor_color;
 }						t_game;
-
-/*
-typedef struct s_game
-{
-	t_player			player;
-	t_map				map;
-	// t_wall			wall;
-	t_components		*components;
-	int					ceiling_color;
-	int					floor_color;
-}						t_game;
-*/
 
 int						close_window(void *param);
-void					draw_square(char *img_data, int x, int y, int size,
-							int color, int size_line, int bpp);
+void	draw_square(char *img_data, int x, int y, int mini_map_tile_with, int mini_map_tile_height, int color,
+		int size_line, int bpp);
 void					draw_line(char *img_data, int x0, int y0, int x1,
 							int y1, int color, int size_line, int bpp,
 							float alpha);
@@ -146,7 +120,7 @@ void					draw_circle(char *img_data, int x0, int y0, int radius,
 void					render_player(t_game *game);
 int						key_press(int keycode, t_game *game);
 int						key_release(int keycode, t_game *game);
-int						has_wall_at(float x, float y, t_map *map);
+int						has_wall_at(float x, float y, t_game *game);
 float					normalize_angle(float angle);
 void					update_player(t_game *game);
 int						can_move_to(float newX, float newY, t_game *game);
@@ -158,12 +132,9 @@ void					render_game_in_3D(t_game *game);
 int						game_loop(t_game *game);
 void					init_game(t_game *game, t_pos pos);
 void					render_minimap(t_game *game);
-void					render_game_in_3D(t_game *game);
 void					show_data_of_rays(t_game *game);
 void					initialize_player_position(t_game *game,
 							t_map *map);
-void					initialize_map_grid(t_game *game,
-							char initial_map[MAP_HEIGHT][MAP_WIDTH]);
 void					calculate_check_coordinates(int direction,
 							t_intercept_data *data, float *check_x,
 							float *check_y);

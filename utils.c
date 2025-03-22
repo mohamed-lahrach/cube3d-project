@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 00:20:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/21 19:36:54 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 06:24:19 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void initialize_player_position(t_game *game, t_map *map)
                 map->grid[i][j] == 'E' || map->grid[i][j] == 'W')
             {
                 // Set player position
-                game->player.x = j * TILE_SIZE + TILE_SIZE / 2;
-                game->player.y = i * TILE_SIZE + TILE_SIZE / 2;
+                game->player.x = j * game->tile_size.width + game->tile_size.width / 2;
+                game->player.y = i * game->tile_size.height + game->tile_size.height / 2;
                 
                 // Set player direction based on character
                 if (map->grid[i][j] == 'N')
@@ -48,50 +48,32 @@ void initialize_player_position(t_game *game, t_map *map)
     }
 }
 
-void	initialize_map_grid(t_game *game,
-		char initial_map[MAP_HEIGHT][MAP_WIDTH])
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < MAP_HEIGHT)
-	{
-		j = 0;
-		while (j < MAP_WIDTH)
-		{
-			game->map.grid[i][j] = initial_map[i][j];
-			j++;
-		}
-		i++;
-	}
-}
-
-int	has_wall_at(float x, float y, t_map *map)
+int	has_wall_at(float x, float y, t_game *game)
 {
 	int	map_x;
 	int	map_y;
+	char **grid = game->map.grid;
 
-	map_x = (int)(x / TILE_SIZE);
-	map_y = (int)(y / TILE_SIZE);
-	if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
+	map_x = (int)(x / game->tile_size.width);
+	map_y = (int)(y / game->tile_size.height);
+	if (map_x < 0 || map_x >= game->rows || map_y < 0 || map_y >= game->columns)
 		return (1);
-	return (map->grid[map_y ][map_x] == '1');
+	return (grid[map_y ][map_x] == '1');
 }
 
 int	can_move_to(float newX, float newY, t_game *game)
 {
 	if (has_wall_at(newX + game->player.radius, newY + game->player.radius,
-			&game->map))
+			game))
 		return (0);
 	if (has_wall_at(newX - game->player.radius, newY + game->player.radius,
-			&game->map))
+			game))
 		return (0);
 	if (has_wall_at(newX + game->player.radius, newY - game->player.radius,
-			&game->map))
+			game))
 		return (0);
 	if (has_wall_at(newX - game->player.radius, newY - game->player.radius,
-			&game->map))
+			game))
 		return (0);
 	return (1);
 }

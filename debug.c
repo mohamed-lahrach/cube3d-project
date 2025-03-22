@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 01:10:40 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/21 06:22:06 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 05:53:23 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	show_data_of_rays(t_game *game)
 	int		i;
 
 	i = 0;
-	while (i < game->window_width / 1)
+	while (i < NUM_RAYS)
 	{
 		show_data_of_ray(i, game);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:05 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/21 06:23:44 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 05:56:28 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	perform_dda(t_game *game, t_intercept_data *data, int direction)
 	float	check_x;
 	float	check_y;
 
-	while (data->next_touch_x >= 0 && data->next_touch_x <= game->window_width
-		&& data->next_touch_y >= 0 && data->next_touch_y <= game->window_height)
+	while (data->next_touch_x >= 0 && data->next_touch_x <= SCREEN_WIDTH
+		&& data->next_touch_y >= 0 && data->next_touch_y <= SCREEN_HEIGHT)
 	{
 		calculate_check_coordinates(direction, data, &check_x, &check_y);
-		if (has_wall_at(check_x, check_y, &game->map))
+		if (has_wall_at(check_x, check_y, game))
 		{
 			data->hit_x = data->next_touch_x;
 			data->hit_y = data->next_touch_y;
@@ -38,15 +38,15 @@ void	cast_horizontal_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->yintercept = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
+	data->yintercept = floor(game->player.y / game->tile_size.height) * game->tile_size.height;
 	if (ray.is_facing_down)
-		data->yintercept += TILE_SIZE;
+		data->yintercept += game->tile_size.height;
 	data->xintercept = game->player.x + (data->yintercept - game->player.y)
 		/ tan(ray.ray_angle);
-	data->ystep = TILE_SIZE;
+	data->ystep = game->tile_size.height;
 	if (ray.is_facing_up)
 		data->ystep = -data->ystep;
-	data->xstep = TILE_SIZE / tan(ray.ray_angle);
+	data->xstep = game->tile_size.height / tan(ray.ray_angle);
 	if (ray.is_facing_left && data->xstep > 0)
 		data->xstep = -data->xstep;
 	if (ray.is_facing_right && data->xstep < 0)
@@ -65,15 +65,15 @@ void	cast_vertical_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->xintercept = floor(game->player.x / TILE_SIZE) * TILE_SIZE;
+	data->xintercept = floor(game->player.x / game->tile_size.width) * game->tile_size.width;
 	if (ray.is_facing_right)
-		data->xintercept += TILE_SIZE;
+		data->xintercept += game->tile_size.width;
 	data->yintercept = game->player.y + (data->xintercept - game->player.x)
 		* tan(ray.ray_angle);
-	data->xstep = TILE_SIZE;
+	data->xstep = game->tile_size.width;
 	if (ray.is_facing_left)
 		data->xstep *= -1;
-	data->ystep = TILE_SIZE * tan(ray.ray_angle);
+	data->ystep = game->tile_size.width * tan(ray.ray_angle);
 	if (ray.is_facing_up && data->ystep > 0)
 		data->ystep *= -1;
 	if (ray.is_facing_down && data->ystep < 0)
@@ -113,11 +113,10 @@ void	cast_all_rays(t_game *game)
 
 	ray_angle = game->player.rotation_angle - (FOV_ANGLE / 2);
 	i = 0;
-	game->rays = malloc(sizeof(t_ray) * game->window_width / 1);
-	while (i < game->window_width / 1)
+	while (i < NUM_RAYS)
 	{
 		game->rays[i] = cast_ray(game, ray_angle);
-		ray_angle += FOV_ANGLE / game->window_width / 1;
+		ray_angle += FOV_ANGLE / NUM_RAYS;
 		i++;
 	}
 }

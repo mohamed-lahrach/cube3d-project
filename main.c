@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/21 20:03:06 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 06:07:07 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,11 @@ void update_player(t_game *game)
 void init_game(t_game *game, t_pos pos)
 {
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, game->window_width, game->window_height,
+	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT,
 							   "Raycaster");
 	game->player = (t_player){.radius = 3, .move_speed = 1, .rotation_angle = M_PI / 2, .turn_direction = 0, .walk_direction = 0, .strafe_direction = 0, .rotation_speed = 0.4 * (M_PI / 180), .x = pos.x, .y = pos.y};
-	// draw_map(game, game->map.grid);
 	initialize_player_position(game, &game->map);
-	// initialize_map_grid(game, game->map.grid);
-	game->img = mlx_new_image(game->mlx, game->window_width, game->window_height);
+	game->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line,
 									   &game->endian);
 }
@@ -92,13 +90,10 @@ void normalize_map(t_map *map)
         int j = 0;
         while (map->grid[i][j])
         {
-            // Replace spaces with '1'
             if (map->grid[i][j] == ' ')
                 map->grid[i][j] = '1';
             j++;
         }
-        
-        // Pad the rest of the line with '1's to match longest_len
         char *new_line = malloc(sizeof(char) * (longest_len + 1));
         if (!new_line)
             return;
@@ -162,27 +157,34 @@ int main(int ac, char **av)
 	game.components = &components;
 	game.floor_color = get_color(components.floor_color);
 	game.ceiling_color = get_color(components.ceiling_color);
+	printf("floor color: %p\n", game.floor_color);
+	printf("ceiling color: %p\n", game.ceiling_color);
 	game.map.grid = list_to_array(components.map, get_max_string_length(components.map));
 	print_components(&components);
 	
 	/*
 		ray casting stuff
 	*/
-	
 	determine_player_pos(&pos, game.map.grid);
 	print_grid(game.map.grid);
 	printf("\n");
 	normalize_map(&game.map);
-	game.window_height = get_num_columns(game.map.grid) * TILE_SIZE;
-	game.window_width = get_num_rows(game.map.grid) * TILE_SIZE; 
 	print_grid(game.map.grid);
-	
+	game.rows = get_num_rows(game.map.grid);
+	game.columns = get_num_columns(game.map.grid);
+	game.tile_size.width = SCREEN_WIDTH / game.rows;
+	game.tile_size.height = SCREEN_HEIGHT / game.columns;
+
+
 	printf("pos x: %f, pos y: %f\n", pos.x, pos.y);
-	printf("window width: %d\n", game.window_width);
-	printf("number of rows: %d\n", get_num_rows(game.map.grid));
+	printf("window width: %d * %d = %d\n", game.tile_size.width, game.rows, game.tile_size.width * game.rows);
+	printf("window height: %d * %d = %d\n", game.tile_size.height, game.columns, game.tile_size.height * game.columns);
 	printf("++++++++++++++++++++++++++++++\n");
-	printf("window height: %d\n", game.window_height);
-	printf("number of colums: %d\n", get_num_columns(game.map.grid));
+	printf("number of rows: %d\n", game.rows);
+	printf("number of colums: %d\n", game.columns);
+	printf("++++++++++++++++++++++++++++++\n");
+	printf("tile width: %d\n", game.tile_size.width);
+	printf("tile height: %d\n", game.tile_size.height);
 	init_game(&game, pos);
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
