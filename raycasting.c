@@ -38,7 +38,8 @@ void	cast_horizontal_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->yintercept = floor(game->player.y / game->tile_size.height) * game->tile_size.height;
+	data->yintercept = floor(game->player.y / game->tile_size.height)
+		* game->tile_size.height;
 	if (ray.is_facing_down)
 		data->yintercept += game->tile_size.height;
 	data->xintercept = game->player.x + (data->yintercept - game->player.y)
@@ -65,7 +66,8 @@ void	cast_vertical_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->xintercept = floor(game->player.x / game->tile_size.width) * game->tile_size.width;
+	data->xintercept = floor(game->player.x / game->tile_size.width)
+		* game->tile_size.width;
 	if (ray.is_facing_right)
 		data->xintercept += game->tile_size.width;
 	data->yintercept = game->player.y + (data->xintercept - game->player.x)
@@ -103,7 +105,8 @@ t_ray	cast_ray(t_game *game, float ray_angle)
 	vert_distance = get_distance(vert_intercept_data, game);
 	game->vert_intercept_data = vert_intercept_data;
 	game->horz_intercept_data = horz_intercept_data;
-	select_closest_hit(&ray, game,vert_distance, horz_distance);return (ray);
+	select_closest_hit(&ray, game, vert_distance, horz_distance);
+	return (ray);
 }
 
 void	cast_all_rays(t_game *game)
