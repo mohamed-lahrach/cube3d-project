@@ -71,8 +71,8 @@ void	render_game_in_3D(t_game *game)
 	int		wall_bottom_pixel;
 	int		i;
 
-	i = 0;
-	while (i < NUM_RAYS)
+	i = -1;
+	while (++i < NUM_RAYS)
 	{
 		ray = game->rays[i];
 		perp_distance = ray.distance * cos(ray.ray_angle
@@ -88,6 +88,5 @@ void	render_game_in_3D(t_game *game)
 		draw_ceiling(game, 0, wall_top_pixel, i, game->ceiling_color);
 		draw_wall_strip(game, wall_top_pixel, wall_bottom_pixel, i);
 		draw_floor(game, wall_bottom_pixel, SCREEN_HEIGHT, i, game->floor_color);
-		i++;
 	}
 }

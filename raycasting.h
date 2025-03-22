@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 06:25:23 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:03:43 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ float					normalize_angle(float angle);
 void					update_player(t_game *game);
 int						can_move_to(float newX, float newY, t_game *game);
 t_ray					cast_ray(t_game *game, float ray_angle);
-void					show_data_of_ray(int i, t_game *game);
 void					cast_all_rays(t_game *game);
 void					draw_rays(t_game *game, float factor);
 void					render_game_in_3D(t_game *game);
