@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 01:10:53 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 06:21:37 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:28:08 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	render_minimap(t_game *game)
 			int ray_end_y = (int)(game->rays[i].wall_hit_y
 					* MINIMAP_SCALE_FACTOR);
 			draw_line(game->img_data, ray_start_x, ray_start_y, ray_end_x,
-				ray_end_y, RED_COLOR, game->size_line, game->bpp, 0.3);
+				ray_end_y, RED_COLOR, game->size_line, game->bpp, 1);
 		}
 	}
 }

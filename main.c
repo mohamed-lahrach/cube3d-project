@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 23:59:48 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:25:54 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,43 +88,56 @@ int	get_num_rows(char **grid)
 	}
 	return (max_len);
 }
-void	normalize_map(t_map *map)
+void replace_spaces_with_walls(t_map *map)
 {
-	int		i;
-	int		longest_len;
-	int		j;
-	char	*new_line;
+    int i = 0;
+    
+    while (map->grid[i])
+    {
+        int j = 0;
+        while (map->grid[i][j])
+        {
+            if (map->grid[i][j] == ' ')
+                map->grid[i][j] = '1';
+            j++;
+        }
+        i++;
+    }
+}
 
-	i = 0;
-	longest_len = get_num_rows(map->grid);
-	while (map->grid[i])
-	{
-		j = 0;
-		while (map->grid[i][j])
-		{
-			if (map->grid[i][j] == ' ')
-				map->grid[i][j] = '1';
-			j++;
-		}
-		new_line = malloc(sizeof(char) * (longest_len + 1));
-		if (!new_line)
-			return ;
-		j = 0;
-		while (map->grid[i][j])
-		{
-			new_line[j] = map->grid[i][j];
-			j++;
-		}
-		while (j < longest_len)
-		{
-			new_line[j] = '1';
-			j++;
-		}
-		new_line[j] = '\0';
-		free(map->grid[i]);
-		map->grid[i] = new_line;
-		i++;
-	}
+void pad_rows_to_equal_length(t_map *map)
+{
+    int i = 0;
+    int longest_len = get_num_rows(map->grid);
+    
+    while (map->grid[i])
+    {
+        char *new_line = malloc(sizeof(char) * (longest_len + 1));
+        if (!new_line)
+            return;
+        int j = 0;
+        while (map->grid[i][j])
+        {
+            new_line[j] = map->grid[i][j];
+            j++;
+        }
+        while (j < longest_len)
+        {
+            new_line[j] = '1';
+            j++;
+        }
+        new_line[j] = '\0';
+        free(map->grid[i]);
+        map->grid[i] = new_line;
+        i++;
+    }
+}
+
+// Now the original function just calls these two
+void normalize_map(t_map *map)
+{
+    replace_spaces_with_walls(map);
+    pad_rows_to_equal_length(map);
 }
 
 void	print_grid(char **grid)
