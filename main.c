@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/23 00:25:54 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:42:35 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void	init_game(t_game *game, t_pos pos)
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT,
 			"Raycaster");
+	normalize_map(&game->map);
+	game->rows = get_num_rows(game->map.grid);
+	game->columns = get_num_columns(game->map.grid);
+	game->tile_size.width = SCREEN_WIDTH / game->rows;
+	game->tile_size.height = SCREEN_HEIGHT / game->columns;
 	game->player = (t_player){.radius = 3, .move_speed = .5,
 		.rotation_angle = M_PI / 2, .turn_direction = 0, .walk_direction = 0,
 		.strafe_direction = 0, .rotation_speed = 0.2 * (M_PI / 180), .x = pos.x,
@@ -59,85 +64,6 @@ int	game_loop(t_game *game)
 	render_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
-}
-// Function to count the number of rows in the grid
-int	get_num_columns(char **grid)
-{
-	int	num_rows;
-
-	num_rows = 0;
-	while (grid[num_rows] != NULL)
-		num_rows++;
-	return (num_rows);
-}
-
-int	get_num_rows(char **grid)
-{
-	int	max_len;
-	int	i;
-	int	len;
-
-	max_len = 0;
-	i = 0;
-	while (grid[i])
-	{
-		len = ft_strlen(grid[i]);
-		if (len > max_len)
-			max_len = len;
-		i++;
-	}
-	return (max_len);
-}
-void replace_spaces_with_walls(t_map *map)
-{
-    int i = 0;
-    
-    while (map->grid[i])
-    {
-        int j = 0;
-        while (map->grid[i][j])
-        {
-            if (map->grid[i][j] == ' ')
-                map->grid[i][j] = '1';
-            j++;
-        }
-        i++;
-    }
-}
-
-void pad_rows_to_equal_length(t_map *map)
-{
-    int i = 0;
-    int longest_len = get_num_rows(map->grid);
-    
-    while (map->grid[i])
-    {
-        char *new_line = malloc(sizeof(char) * (longest_len + 1));
-        if (!new_line)
-            return;
-        int j = 0;
-        while (map->grid[i][j])
-        {
-            new_line[j] = map->grid[i][j];
-            j++;
-        }
-        while (j < longest_len)
-        {
-            new_line[j] = '1';
-            j++;
-        }
-        new_line[j] = '\0';
-        free(map->grid[i]);
-        map->grid[i] = new_line;
-        i++;
-    }
-}
-
-// Now the original function just calls these two
-void normalize_map(t_map *map)
-{
-    replace_spaces_with_walls(map);
-    pad_rows_to_equal_length(map);
 }
 
 void	print_grid(char **grid)
@@ -165,42 +91,15 @@ int	main(int ac, char **av)
 	t_pos			pos;
 	t_components	components;
 
-	/*
-		parsing stuff
-	*/
 	if (!(parse_the_file(av[1], &components)))
 		return (-1);
 	game.components = &components;
 	game.floor_color = get_color(components.floor_color);
 	game.ceiling_color = get_color(components.ceiling_color);
-	printf("floor color: %d\n", game.floor_color);
-	printf("ceiling color: %d\n", game.ceiling_color);
 	game.map.grid = list_to_array(components.map,
 			get_max_string_length(components.map));
 	print_components(&components);
-	/*
-		ray casting stuff
-	*/
 	determine_player_pos(&pos, game.map.grid);
-	print_grid(game.map.grid);
-	printf("\n");
-	normalize_map(&game.map);
-	print_grid(game.map.grid);
-	game.rows = get_num_rows(game.map.grid);
-	game.columns = get_num_columns(game.map.grid);
-	game.tile_size.width = SCREEN_WIDTH / game.rows;
-	game.tile_size.height = SCREEN_HEIGHT / game.columns;
-	printf("pos x: %f, pos y: %f\n", pos.x, pos.y);
-	printf("window width: %d * %d = %d\n", game.tile_size.width, game.rows,
-		game.tile_size.width * game.rows);
-	printf("window height: %d * %d = %d\n", game.tile_size.height, game.columns,
-		game.tile_size.height * game.columns);
-	printf("++++++++++++++++++++++++++++++\n");
-	printf("number of rows: %d\n", game.rows);
-	printf("number of colums: %d\n", game.columns);
-	printf("++++++++++++++++++++++++++++++\n");
-	printf("tile width: %d\n", game.tile_size.width);
-	printf("tile height: %d\n", game.tile_size.height);
 	init_game(&game, pos);
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game);

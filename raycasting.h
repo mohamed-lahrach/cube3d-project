@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 23:51:49 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:07:06 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,7 @@ void					select_closest_hit(t_ray *ray, t_game *game,
 							double vert_distance, double horz_distance);
 float					get_distance(t_intercept_data intercept_data,
 							t_game *game);
-
+void					normalize_map(t_map *map);
+int						get_num_rows(char **grid);
+int						get_num_columns(char **grid);
 #endif
