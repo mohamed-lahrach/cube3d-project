@@ -6,22 +6,22 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 20:03:43 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 23:51:49 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYCASTING_H
 # define RAYCASTING_H
 
-# include "minilibx-linux/mlx.h"
-# include "inc/parsing.h"
 # include "inc/cub3d.h"
+# include "inc/parsing.h"
+# include "minilibx-linux/mlx.h"
 # include <float.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
+# define MIN(a, b) ((a) < (b) ? (a) : (b))
 # define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 800
 # define GRAY_COLOR 0xCCCCCC
@@ -110,8 +110,9 @@ typedef struct s_game
 }						t_game;
 
 int						close_window(void *param);
-void	draw_square(char *img_data, int x, int y, int mini_map_tile_with, int mini_map_tile_height, int color,
-		int size_line, int bpp);
+void					draw_square(char *img_data, int x, int y,
+							int mini_map_tile_with, int mini_map_tile_height,
+							int color, int size_line, int bpp);
 void					draw_line(char *img_data, int x0, int y0, int x1,
 							int y1, int color, int size_line, int bpp,
 							float alpha);
@@ -132,8 +133,7 @@ int						game_loop(t_game *game);
 void					init_game(t_game *game, t_pos pos);
 void					render_minimap(t_game *game);
 void					show_data_of_rays(t_game *game);
-void					initialize_player_position(t_game *game,
-							t_map *map);
+void					initialize_player_position(t_game *game, t_map *map);
 void					calculate_check_coordinates(int direction,
 							t_intercept_data *data, float *check_x,
 							float *check_y);

@@ -6,149 +6,152 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 06:07:07 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/22 23:59:48 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
-void update_player(t_game *game)
+void	update_player(t_game *game)
 {
-	float move_step;
-	float strafe_step;
-	float new_player_x;
-	float new_player_y;
+	float	move_step;
+	float	strafe_step;
+	float	new_player_x;
+	float	new_player_y;
 
 	move_step = game->player.walk_direction * game->player.move_speed;
 	strafe_step = game->player.strafe_direction * game->player.move_speed;
-	new_player_x = game->player.x + cos(game->player.rotation_angle) * move_step - sin(game->player.rotation_angle) * strafe_step;
-	new_player_y = game->player.y + sin(game->player.rotation_angle) * move_step + cos(game->player.rotation_angle) * strafe_step;
+	new_player_x = game->player.x + cos(game->player.rotation_angle) * move_step
+		- sin(game->player.rotation_angle) * strafe_step;
+	new_player_y = game->player.y + sin(game->player.rotation_angle) * move_step
+		+ cos(game->player.rotation_angle) * strafe_step;
 	if (can_move_to(new_player_x, new_player_y, game))
 	{
 		game->player.x = new_player_x;
 		game->player.y = new_player_y;
 	}
-	game->player.rotation_angle += game->player.turn_direction * game->player.rotation_speed;
+	game->player.rotation_angle += game->player.turn_direction
+		* game->player.rotation_speed;
 	game->player.rotation_angle = fmod(game->player.rotation_angle, 2 * M_PI);
 }
 
-void init_game(t_game *game, t_pos pos)
+void	init_game(t_game *game, t_pos pos)
 {
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT,
-							   "Raycaster");
-	game->player = (t_player){.radius = 3, .move_speed = 1, .rotation_angle = M_PI / 2, .turn_direction = 0, .walk_direction = 0, .strafe_direction = 0, .rotation_speed = 0.4 * (M_PI / 180), .x = pos.x, .y = pos.y};
+			"Raycaster");
+	game->player = (t_player){.radius = 3, .move_speed = .5,
+		.rotation_angle = M_PI / 2, .turn_direction = 0, .walk_direction = 0,
+		.strafe_direction = 0, .rotation_speed = 0.2 * (M_PI / 180), .x = pos.x,
+		.y = pos.y};
 	initialize_player_position(game, &game->map);
 	game->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line,
-									   &game->endian);
+			&game->endian);
 }
 
-int game_loop(t_game *game)
+int	game_loop(t_game *game)
 {
 	mlx_clear_window(game->mlx, game->win);
 	update_player(game);
 	cast_all_rays(game);
-	// show_data_of_rays(game);
 	render_game_in_3D(game);
 	render_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
 // Function to count the number of rows in the grid
-int get_num_columns(char **grid)
+int	get_num_columns(char **grid)
 {
-    int num_rows = 0;
-    while (grid[num_rows] != NULL)
-        num_rows++;
-    return num_rows;
+	int	num_rows;
+
+	num_rows = 0;
+	while (grid[num_rows] != NULL)
+		num_rows++;
+	return (num_rows);
 }
 
-// Function to print the grid
-
-int get_num_rows(char **grid)
+int	get_num_rows(char **grid)
 {
-    int max_len = 0;
-    int i = 0;
-    
-    while (grid[i])
-    {
-        int len = ft_strlen(grid[i]);
-        if (len > max_len)
-            max_len = len;
-        i++;
-    }
-    return max_len;
+	int	max_len;
+	int	i;
+	int	len;
+
+	max_len = 0;
+	i = 0;
+	while (grid[i])
+	{
+		len = ft_strlen(grid[i]);
+		if (len > max_len)
+			max_len = len;
+		i++;
+	}
+	return (max_len);
 }
-void normalize_map(t_map *map)
+void	normalize_map(t_map *map)
 {
-    int i = 0;
-    int longest_len = get_num_rows(map->grid);
+	int		i;
+	int		longest_len;
+	int		j;
+	char	*new_line;
 
-    while (map->grid[i])
-    {
-        int j = 0;
-        while (map->grid[i][j])
-        {
-            if (map->grid[i][j] == ' ')
-                map->grid[i][j] = '1';
-            j++;
-        }
-        char *new_line = malloc(sizeof(char) * (longest_len + 1));
-        if (!new_line)
-            return;
-            
-        j = 0;
-        while (map->grid[i][j])
-        {
-            new_line[j] = map->grid[i][j];
-            j++;
-        }
-        
-        while (j < longest_len)
-        {
-            new_line[j] = '1';
-            j++;
-        }
-        new_line[j] = '\0';
-        
-        free(map->grid[i]);
-        map->grid[i] = new_line;
-        i++;
-    }
-}
-
-void print_grid(char **grid)
-{
-    int i = 0;
-    while (grid[i] != NULL)  // Loop through rows
-    {
-        int j = 0;
-        while (grid[i][j] != '\0')  // Loop through columns
-        {
-            printf("%c", grid[i][j]);
-            j++;
-        }
-        printf("\n");
-        i++;
-    }
+	i = 0;
+	longest_len = get_num_rows(map->grid);
+	while (map->grid[i])
+	{
+		j = 0;
+		while (map->grid[i][j])
+		{
+			if (map->grid[i][j] == ' ')
+				map->grid[i][j] = '1';
+			j++;
+		}
+		new_line = malloc(sizeof(char) * (longest_len + 1));
+		if (!new_line)
+			return ;
+		j = 0;
+		while (map->grid[i][j])
+		{
+			new_line[j] = map->grid[i][j];
+			j++;
+		}
+		while (j < longest_len)
+		{
+			new_line[j] = '1';
+			j++;
+		}
+		new_line[j] = '\0';
+		free(map->grid[i]);
+		map->grid[i] = new_line;
+		i++;
+	}
 }
 
-
-int main(int ac, char **av)
+void	print_grid(char **grid)
 {
-	t_game game;
-	t_pos pos;
-	// t_game			game;
-	t_components components;
+	int	i;
+	int	j;
 
-	// if (ac != 3)
-	// {
-	// 	ft_putstr_fd("Error\nInvalid number of arguments\n", 2);
-	// 	return (-1);
-	// }
+	i = 0;
+	while (grid[i] != NULL)
+	{
+		j = 0;
+		while (grid[i][j] != '\0')
+		{
+			printf("%c", grid[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
 
-	
+int	main(int ac, char **av)
+{
+	t_game			game;
+	t_pos			pos;
+	t_components	components;
+
 	/*
 		parsing stuff
 	*/
@@ -157,11 +160,11 @@ int main(int ac, char **av)
 	game.components = &components;
 	game.floor_color = get_color(components.floor_color);
 	game.ceiling_color = get_color(components.ceiling_color);
-	printf("floor color: %p\n", game.floor_color);
-	printf("ceiling color: %p\n", game.ceiling_color);
-	game.map.grid = list_to_array(components.map, get_max_string_length(components.map));
+	printf("floor color: %d\n", game.floor_color);
+	printf("ceiling color: %d\n", game.ceiling_color);
+	game.map.grid = list_to_array(components.map,
+			get_max_string_length(components.map));
 	print_components(&components);
-	
 	/*
 		ray casting stuff
 	*/
@@ -174,11 +177,11 @@ int main(int ac, char **av)
 	game.columns = get_num_columns(game.map.grid);
 	game.tile_size.width = SCREEN_WIDTH / game.rows;
 	game.tile_size.height = SCREEN_HEIGHT / game.columns;
-
-
 	printf("pos x: %f, pos y: %f\n", pos.x, pos.y);
-	printf("window width: %d * %d = %d\n", game.tile_size.width, game.rows, game.tile_size.width * game.rows);
-	printf("window height: %d * %d = %d\n", game.tile_size.height, game.columns, game.tile_size.height * game.columns);
+	printf("window width: %d * %d = %d\n", game.tile_size.width, game.rows,
+		game.tile_size.width * game.rows);
+	printf("window height: %d * %d = %d\n", game.tile_size.height, game.columns,
+		game.tile_size.height * game.columns);
 	printf("++++++++++++++++++++++++++++++\n");
 	printf("number of rows: %d\n", game.rows);
 	printf("number of colums: %d\n", game.columns);
