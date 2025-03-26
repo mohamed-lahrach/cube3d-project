@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:10:53 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/26 01:51:56 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 04:53:52 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ void    draw_wall_strip(t_game *game, int wall_top, int wall_bottom, int ray_ind
     int     tex_width = game->tex_width[tex_index];
     int     tex_height = game->tex_height[tex_index];
 
-	// printf("tex_H: %d\n", tex_height);
-	// printf("tex_W: %d\n", tex_width);
-    // Calculate texture X coordinate
+
     if (ray->was_hit_vertical)
         tex_x = (int)ray->wall_hit_y % tex_width;
     else
@@ -127,8 +125,7 @@ void	render_game_in_3d(t_game *game)
 		ray = game->rays[i];
 		perp_distance = ray.distance * cos(ray.ray_angle
 				- game->player.rotation_angle);
-		wall_strip_height = (int)((MIN(game->tile_size.height,
-						game->tile_size.width) / perp_distance)
+		wall_strip_height = (int)((TILE_SIZE/ perp_distance)
 				* DIST_PROJ_PLANE);
 		wall_top_pixel = (SCREEN_HEIGHT / 2) - (wall_strip_height / 2);
 		if (wall_top_pixel < 0)

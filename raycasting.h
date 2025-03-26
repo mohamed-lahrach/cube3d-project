@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/26 01:28:40 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:19:47 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+#define TILE_SIZE 64
 # define MIN(a, b) ((a) < (b) ? (a) : (b))
 # define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 800

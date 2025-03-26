@@ -1,4 +1,4 @@
-CC = cc #-fsanitize=address -g
+CC = cc -fsanitize=address -g
 CFLAGS = #-Wall -Wextra -Werror
 INCLUDES = -I./lib/libft -I./get_next_line -I./inc -I./minilibx-linux
 LIBFT_DIR = lib/libft

@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:05 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 05:56:28 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 04:47:57 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	perform_dda(t_game *game, t_intercept_data *data, int direction)
 	float	check_x;
 	float	check_y;
 
-	while (data->next_touch_x >= 0 && data->next_touch_x <= SCREEN_WIDTH
-		&& data->next_touch_y >= 0 && data->next_touch_y <= SCREEN_HEIGHT)
+	while (data->next_touch_x >= 0 && data->next_touch_x <= game->rows * TILE_SIZE
+		&& data->next_touch_y >= 0 && data->next_touch_y <=game->columns * TILE_SIZE )
 	{
 		calculate_check_coordinates(direction, data, &check_x, &check_y);
 		if (has_wall_at(check_x, check_y, game))
@@ -38,16 +38,16 @@ void	cast_horizontal_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->yintercept = floor(game->player.y / game->tile_size.height)
-		* game->tile_size.height;
+	data->yintercept = floor(game->player.y / TILE_SIZE)
+		* TILE_SIZE;
 	if (ray.is_facing_down)
-		data->yintercept += game->tile_size.height;
+		data->yintercept += TILE_SIZE;
 	data->xintercept = game->player.x + (data->yintercept - game->player.y)
 		/ tan(ray.ray_angle);
-	data->ystep = game->tile_size.height;
+	data->ystep = TILE_SIZE;
 	if (ray.is_facing_up)
 		data->ystep = -data->ystep;
-	data->xstep = game->tile_size.height / tan(ray.ray_angle);
+	data->xstep = TILE_SIZE / tan(ray.ray_angle);
 	if (ray.is_facing_left && data->xstep > 0)
 		data->xstep = -data->xstep;
 	if (ray.is_facing_right && data->xstep < 0)
@@ -66,16 +66,16 @@ void	cast_vertical_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->xintercept = floor(game->player.x / game->tile_size.width)
-		* game->tile_size.width;
+	data->xintercept = floor(game->player.x / TILE_SIZE)
+		* TILE_SIZE;
 	if (ray.is_facing_right)
-		data->xintercept += game->tile_size.width;
+		data->xintercept += TILE_SIZE;
 	data->yintercept = game->player.y + (data->xintercept - game->player.x)
 		* tan(ray.ray_angle);
-	data->xstep = game->tile_size.width;
+	data->xstep = TILE_SIZE;
 	if (ray.is_facing_left)
 		data->xstep *= -1;
-	data->ystep = game->tile_size.width * tan(ray.ray_angle);
+	data->ystep = TILE_SIZE * tan(ray.ray_angle);
 	if (ray.is_facing_up && data->ystep > 0)
 		data->ystep *= -1;
 	if (ray.is_facing_down && data->ystep < 0)

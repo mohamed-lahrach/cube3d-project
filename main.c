@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/26 01:41:51 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 05:29:17 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	update_player(t_game *game)
 void    load_textures(t_game *game)
 {
     char *texture_files[4] = {
-        "north.xpm",
-        "south.xpm",
-        "west_1.xpm",
-        "east_1.xpm"
+        "textures/30x.xpm",
+        "textures/64x.xpm",
+        "textures/west_1.xpm",
+        "textures/east_1.xpm"
     };
     int i;
 
@@ -65,11 +65,9 @@ void	init_game(t_game *game, t_pos pos)
 	normalize_map(&game->map);
 	game->rows = get_num_rows(game->map.grid);
 	game->columns = get_num_columns(game->map.grid);
-	game->tile_size.width = SCREEN_WIDTH / game->rows;
-	game->tile_size.height = SCREEN_HEIGHT / game->columns;
-	game->player = (t_player){.radius = 3, .move_speed = .5,
+	game->player = (t_player){.radius = 3, .move_speed = 1.6,
 		.rotation_angle = M_PI / 2, .turn_direction = 0, .walk_direction = 0,
-		.strafe_direction = 0, .rotation_speed = 0.2 * (M_PI / 180), .x = pos.x,
+		.strafe_direction = 0, .rotation_speed = 0.4 * (M_PI / 180), .x = pos.x,
 		.y = pos.y};
 	initialize_player_position(game, &game->map);
 	game->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -83,7 +81,7 @@ int	game_loop(t_game *game)
 	update_player(game);
 	cast_all_rays(game);
 	render_game_in_3d(game);
-	render_minimap(game);
+	//render_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }

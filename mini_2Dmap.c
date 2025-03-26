@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 01:10:53 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/23 00:28:08 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 05:21:06 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,12 @@ void	render_player(t_game *game)
 
 void	render_minimap(t_game *game)
 {
-	int minimap_width = (int)(game->tile_size.width * game->rows
+	int minimap_width = (int)(TILE_SIZE * game->rows
 			* MINIMAP_SCALE_FACTOR);
-	int minimap_height = (int)(game->tile_size.height * game->columns
+	int minimap_height = (int)(TILE_SIZE * game->columns
 			* MINIMAP_SCALE_FACTOR);
-	int minimap_tile_size_with = (int)(game->tile_size.width * MINIMAP_SCALE_FACTOR);
-	int minimap_tile_size_height = (int)(game->tile_size.height * MINIMAP_SCALE_FACTOR);
+	int minimap_tile_size_with = (int)(TILE_SIZE * MINIMAP_SCALE_FACTOR);
+	int minimap_tile_size_height = (int)(TILE_SIZE * MINIMAP_SCALE_FACTOR);
 	for (int i = 0; i < game->columns; i++)
 	{
 		for (int j = 0; j < game->rows; j++)

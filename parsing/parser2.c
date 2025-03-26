@@ -52,5 +52,6 @@ t_type	return_nd_free(t_type this, char **arr)
 
 int	get_color(t_colors *color)
 {
-	return (color->red << 24 | color->green << 16 | color->blue << 8 | 255);
+    int alpha = 255; // Fully opaque
+    return ((alpha << 24) | (color->red << 16) | (color->green << 8) | color->blue);
 }
