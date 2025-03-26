@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/23 02:42:35 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:24:50 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	game_loop(t_game *game)
 	mlx_clear_window(game->mlx, game->win);
 	update_player(game);
 	cast_all_rays(game);
-	render_game_in_3D(game);
+	render_game_in_3d(game);
 	render_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);

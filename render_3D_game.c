@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:10:53 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/22 20:10:54 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:29:11 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,36 @@ void	draw_ceiling(t_game *game, int start_y, int end_y, int ray_index,
 {
 	int	wall_strip_width;
 	int	pixel;
+	int	y;
 
 	wall_strip_width = SCREEN_WIDTH / (NUM_RAYS);
-	for (int y = start_y; y < end_y; y++)
+	y = start_y;
+	while (y < end_y)
 	{
 		pixel = (y * game->size_line) + (ray_index * wall_strip_width
 				* (game->bpp / 8));
 		game->img_data[pixel] = color & 0xFF;
 		game->img_data[pixel + 1] = (color >> 8) & 0xFF;
 		game->img_data[pixel + 2] = (color >> 16) & 0xFF;
+		y++;
+	}
+}
+
+int	get_wall_color(t_ray ray)
+{
+	if (ray.was_hit_vertical)
+	{
+		if (ray.is_facing_left)
+			return (0xFF0000);
+		else
+			return (0x8B4513);
+	}
+	else
+	{
+		if (ray.is_facing_up)
+			return (0x00FF00);
+		else
+			return (0xFFFF00);
 	}
 }
 
@@ -40,10 +61,7 @@ void	draw_wall_strip(t_game *game, int wall_top, int wall_bottom,
 
 	wall_strip_width = SCREEN_WIDTH / (NUM_RAYS);
 	ray = game->rays[ray_index];
-	if (ray.was_hit_vertical)
-		color = 0xFF0000;
-	else
-		color = 0x00FF00;
+	color = get_wall_color(ray);
 	y = wall_top;
 	while (y < wall_bottom)
 	{
@@ -76,15 +94,12 @@ void	draw_floor(t_game *game, int start_y, int end_y, int ray_index,
 	}
 }
 
-void	render_game_in_3D(t_game *game)
+void	render_game_in_3d(t_game *game)
 {
 	t_ray	ray;
 	float	perp_distance;
-	int		wall_strip_height;
-	int		wall_top_pixel;
-	int		wall_bottom_pixel;
-	int		i;
 
+	int (wall_strip_height), (wall_top_pixel), (wall_bottom_pixel), (i);
 	i = -1;
 	while (++i < NUM_RAYS)
 	{
