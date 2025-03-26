@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:10:53 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/26 00:29:11 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:51:56 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,51 @@ int	get_wall_color(t_ray ray)
 			return (0xFFFF00);
 	}
 }
-
-void	draw_wall_strip(t_game *game, int wall_top, int wall_bottom,
-		int ray_index)
+int get_texture_index(t_ray *ray)
 {
-	int		wall_strip_width;
-	t_ray	ray;
-	int		color;
-	int		pixel;
-	int		y;
-
-	wall_strip_width = SCREEN_WIDTH / (NUM_RAYS);
-	ray = game->rays[ray_index];
-	color = get_wall_color(ray);
-	y = wall_top;
-	while (y < wall_bottom)
-	{
-		pixel = (y * game->size_line) + (ray_index * wall_strip_width
-				* (game->bpp / 8));
-		game->img_data[pixel] = color & 0xFF;
-		game->img_data[pixel + 1] = (color >> 8) & 0xFF;
-		game->img_data[pixel + 2] = (color >> 16) & 0xFF;
-		y++;
-	}
+    if (ray->was_hit_vertical)
+        return (ray->is_facing_left ? 2 : 3); // 2 = West, 3 = East
+    else
+        return (ray->is_facing_up ? 0 : 1);   // 0 = North, 1 = South
 }
+
+void    draw_wall_strip(t_game *game, int wall_top, int wall_bottom, int ray_index)
+{
+    int     y;
+    int     tex_x, tex_y;
+    float   tex_step;
+    float   tex_pos;
+    t_ray   *ray = &game->rays[ray_index];
+    int     tex_index = get_texture_index(ray);
+    int     *texture = game->tex_data[tex_index];
+    int     tex_width = game->tex_width[tex_index];
+    int     tex_height = game->tex_height[tex_index];
+
+	// printf("tex_H: %d\n", tex_height);
+	// printf("tex_W: %d\n", tex_width);
+    // Calculate texture X coordinate
+    if (ray->was_hit_vertical)
+        tex_x = (int)ray->wall_hit_y % tex_width;
+    else
+        tex_x = (int)ray->wall_hit_x % tex_width;
+
+    tex_step = (float)tex_height / (wall_bottom - wall_top);
+    tex_pos = 0;
+
+    for (y = wall_top; y < wall_bottom; y++)
+    {
+        tex_y = (int)tex_pos & (tex_height - 1); // Texture Y coordinate
+        tex_pos += tex_step;
+
+        int color = texture[tex_y * tex_width + tex_x];
+        int pixel = (y * game->size_line) + (ray_index * (game->bpp / 8));
+
+        game->img_data[pixel] = color & 0xFF;
+        game->img_data[pixel + 1] = (color >> 8) & 0xFF;
+        game->img_data[pixel + 2] = (color >> 16) & 0xFF;
+    }
+}
+
 
 void	draw_floor(t_game *game, int start_y, int end_y, int ray_index,
 		int color)

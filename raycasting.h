@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/26 00:25:00 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:28:40 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ typedef struct s_game
 	t_components		*components;
 	int					ceiling_color;
 	int					floor_color;
+
+	void    *textures[4]; // 0: North, 1: South, 2: West, 3: East
+    int     *tex_data[4]; // Pixel data for each texture
+    int     tex_width[4];
+    int     tex_height[4];
 }						t_game;
 
 int						close_window(void *param);
