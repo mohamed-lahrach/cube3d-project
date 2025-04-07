@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/07 16:03:16 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:46:25 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,37 @@ void	update_player(t_game *game)
 		* game->player.rotation_speed;
 	game->player.rotation_angle = fmod(game->player.rotation_angle, 2 * M_PI);
 }
-void    load_textures(t_game *game)
-{
-    char *texture_files[4] = {
-        "textures/cat.xpm",
-        "textures/dog.xpm",
-        "textures/mouse.xpm",
-        "textures/rabit.xpm"
-    };
-    int i;
 
-    for (i = 0; i < 4; i++)
-    {
-        game->textures[i] = mlx_xpm_file_to_image(game->mlx, texture_files[i], &game->tex_width[i], &game->tex_height[i]);
-        if (!game->textures[i])
-        {
-            printf("Error: Could not load texture %s\n", texture_files[i]);
-            exit(1);
-        }
-        game->tex_data[i] = (int *)mlx_get_data_addr(game->textures[i], &game->bpp, &game->size_line, &game->endian);
-    }
+void	load_textures(t_game *game)
+{
+	char	*texture_files[4];
+	int		i;
+
+	texture_files[0] = "textures/cat.xpm";
+	texture_files[1] = "textures/dog.xpm";
+	texture_files[2] = "textures/mouse.xpm";
+	texture_files[3] = "textures/rabit.xpm";
+	i = 0;
+	while (i < 4)
+	{
+		game->textures[i] = mlx_xpm_file_to_image(game->mlx, texture_files[i],
+				&game->tex_width[i], &game->tex_height[i]);
+		if (!game->textures[i])
+		{
+			printf("Error: Could not load texture %s\n", texture_files[i]);
+			exit(1);
+		}
+		game->tex_data[i] = (int *)mlx_get_data_addr(game->textures[i],
+				&game->bpp, &game->size_line, &game->endian);
+		i++;
+	}
 }
 
 void	init_game(t_game *game, t_pos pos)
 {
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT,
-			"Raycaster");
+			"Cube3D");
 	load_textures(game);
 	normalize_map(&game->map);
 	game->rows = get_num_rows(game->map.grid);
@@ -81,11 +85,9 @@ int	game_loop(t_game *game)
 	update_player(game);
 	cast_all_rays(game);
 	render_game_in_3d(game);
-	//render_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
-
 
 int	main(int ac, char **av)
 {

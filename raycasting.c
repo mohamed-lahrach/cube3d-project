@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:05 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/26 04:47:57 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:51:21 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	perform_dda(t_game *game, t_intercept_data *data, int direction)
 	float	check_x;
 	float	check_y;
 
-	while (data->next_touch_x >= 0 && data->next_touch_x <= game->rows * TILE_SIZE
-		&& data->next_touch_y >= 0 && data->next_touch_y <=game->columns * TILE_SIZE )
+	while (data->next_touch_x >= 0 && data->next_touch_x <= game->rows
+		* TILE_SIZE && data->next_touch_y >= 0
+		&& data->next_touch_y <= game->columns * TILE_SIZE)
 	{
 		calculate_check_coordinates(direction, data, &check_x, &check_y);
 		if (has_wall_at(check_x, check_y, game))
@@ -38,8 +39,7 @@ void	cast_horizontal_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->yintercept = floor(game->player.y / TILE_SIZE)
-		* TILE_SIZE;
+	data->yintercept = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
 	if (ray.is_facing_down)
 		data->yintercept += TILE_SIZE;
 	data->xintercept = game->player.x + (data->yintercept - game->player.y)
@@ -66,8 +66,7 @@ void	cast_vertical_ray(t_game *game, t_ray ray, t_intercept_data *data)
 	data->hit_x = 0;
 	data->hit_y = 0;
 	data->found_wall = 0;
-	data->xintercept = floor(game->player.x / TILE_SIZE)
-		* TILE_SIZE;
+	data->xintercept = floor(game->player.x / TILE_SIZE) * TILE_SIZE;
 	if (ray.is_facing_right)
 		data->xintercept += TILE_SIZE;
 	data->yintercept = game->player.y + (data->xintercept - game->player.x)
