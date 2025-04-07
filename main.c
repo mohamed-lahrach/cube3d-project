@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/06 19:54:43 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:03:16 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,6 @@ int	game_loop(t_game *game)
 	return (0);
 }
 
-void	print_grid(char **grid)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (grid[i] != NULL)
-	{
-		j = 0;
-		while (grid[i][j] != '\0')
-		{
-			printf("%c", grid[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
 
 int	main(int ac, char **av)
 {
