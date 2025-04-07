@@ -12,7 +12,7 @@ PARSER_SRCS = parsing/parser.c parsing/parser1.c parsing/parser2.c parsing/parse
               parsing/parser8.c parsing/parser9.c parsing/utils.c \
               parsing/utils2.c parsing/utils3.c
 PARSER_OBJS = $(PARSER_SRCS:.c=.o)
-ENGINE_SRCS = main.c raycasting.c mini_2Dmap.c render_3D_game.c utils.c input_handling.c raycasting_utils.c normalize_map.c utils_2.c
+ENGINE_SRCS = main.c raycasting.c render_3D_game.c utils.c input_handling.c raycasting_utils.c normalize_map.c utils_2.c
 ENGINE_OBJS = $(ENGINE_SRCS:.c=.o)
 OBJS = $(GNL_OBJS) $(PARSER_OBJS) $(ENGINE_OBJS)
 
