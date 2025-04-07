@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/26 05:29:17 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:54:43 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	update_player(t_game *game)
 void    load_textures(t_game *game)
 {
     char *texture_files[4] = {
-        "textures/30x.xpm",
-        "textures/64x.xpm",
-        "textures/west_1.xpm",
-        "textures/east_1.xpm"
+        "textures/cat.xpm",
+        "textures/dog.xpm",
+        "textures/mouse.xpm",
+        "textures/rabit.xpm"
     };
     int i;
 
