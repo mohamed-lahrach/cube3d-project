@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/07 16:46:25 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/08 20:41:47 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	load_textures(t_game *game)
 	char	*texture_files[4];
 	int		i;
 
-	texture_files[0] = "textures/cat.xpm";
-	texture_files[1] = "textures/dog.xpm";
-	texture_files[2] = "textures/mouse.xpm";
-	texture_files[3] = "textures/rabit.xpm";
+	texture_files[0] = game->components->path_to_north_texture;
+	texture_files[1] = game->components->path_to_south_texture;
+	texture_files[2] = game->components->path_to_west_texture;
+	texture_files[3] = game->components->path_to_east_texture;
 	i = 0;
 	while (i < 4)
 	{
@@ -95,14 +95,13 @@ int	main(int ac, char **av)
 	t_pos			pos;
 	t_components	components;
 
-	if (!(parse_the_file(av[1], &components)))
-		return (-1);
+	if ((ac != 2 || !av[1]) || (!(parse_the_file(av[1], &components))))
+		return (1);
 	game.components = &components;
 	game.floor_color = get_color(components.floor_color);
 	game.ceiling_color = get_color(components.ceiling_color);
 	game.map.grid = list_to_array(components.map,
 			get_max_string_length(components.map));
-	print_components(&components);
 	determine_player_pos(&pos, game.map.grid);
 	init_game(&game, pos);
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);

@@ -9,10 +9,6 @@ void	set_all_to_null(t_components *comps)
 	comps->path_to_west_texture = NULL;
 	comps->path_to_north_texture = NULL;
 	comps->path_to_south_texture = NULL;
-	// comps->west_texture = NULL;
-	// comps->south_texture = NULL;
-	// comps->north_texture = NULL;
-	// comps->east_texture = NULL;
 	comps->map = NULL;
 }
 

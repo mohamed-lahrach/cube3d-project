@@ -1,11 +1,11 @@
 
-NO test_north_textures.xpm 
-EA test_east_textures.xpm
-SO test_south_textures.xp
+NO textures/cat.xpm 
+EA textures/dog.xpm
+SO textures/mouse.xpm
 F 160,82,45
 C 135,206,235
 
-WE test_west_textures.xpm
+WE textures/rabit.xpm
 
 
 111111111111111111111111111111111111111111111

@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/06 20:52:09 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/08 20:38:12 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-#define TILE_SIZE 64
+# define TILE_SIZE 64
 # define MIN(a, b) ((a) < (b) ? (a) : (b))
 # define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 800
@@ -87,6 +87,33 @@ typedef struct s_tile_size
 	int					width;
 	int					height;
 }						t_tile_size;
+
+// texture data
+typedef struct s_draw_info
+{
+	int					tex_x;
+	int					tex_y;
+	float				tex_step;
+	float				tex_pos;
+	t_ray				*ray;
+	int					tex_index;
+	int					*texture;
+	int					tex_width;
+	int					tex_height;
+	int					wall_strip_width;
+	int					true_wall_height;
+	int					color;
+	int					pixel;
+}						t_draw_info;
+
+// Add this to raycasting.h
+typedef struct s_draw_params
+{
+	int					start_y;
+	int					end_y;
+	int					ray_index;
+	int					color;
+}						t_draw_params;
 typedef struct s_game
 {
 	void				*mlx;
@@ -109,10 +136,10 @@ typedef struct s_game
 	int					ceiling_color;
 	int					floor_color;
 
-	void    *textures[4]; // 0: North, 1: South, 2: West, 3: East
-    int     *tex_data[4]; // Pixel data for each texture
-    int     tex_width[4];
-    int     tex_height[4];
+	void				*textures[4];
+	int					*tex_data[4];
+	int					tex_width[4];
+	int					tex_height[4];
 }						t_game;
 
 int						close_window(void *param);
@@ -151,4 +178,11 @@ float					get_distance(t_intercept_data intercept_data,
 void					normalize_map(t_map *map);
 int						get_num_rows(char **grid);
 int						get_num_columns(char **grid);
+int						get_wall_color(t_ray ray);
+int						get_texture_index(t_ray *ray);
+int						get_texture_x_coord(t_ray *ray, int tex_width);
+float					get_texture_start_position(int wall_top,
+							int true_wall_height, float tex_step);
+t_draw_params			init_draw_params(int start_y, int end_y,
+							int ray_index, int color);
 #endif
