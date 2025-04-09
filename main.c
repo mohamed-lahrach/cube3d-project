@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/08 20:41:47 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:22:50 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ void	load_textures(t_game *game)
 		if (!game->textures[i])
 		{
 			printf("Error: Could not load texture %s\n", texture_files[i]);
+			free_comps(game->components);
+			mlx_destroy_window(game->mlx, game->win);
+			mlx_destroy_image(game->mlx, game->img);
 			exit(1);
 		}
 		game->tex_data[i] = (int *)mlx_get_data_addr(game->textures[i],
@@ -106,7 +109,7 @@ int	main(int ac, char **av)
 	init_game(&game, pos);
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
-	mlx_hook(game.win, 17, 0, close_window, NULL);
+	mlx_hook(game.win, 17, 0, close_window, &game);
 	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_loop(game.mlx);
 	free_comps(&components);
