@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 17:54:20 by mlahrach          #+#    #+#             */
+/*   Updated: 2025/04/09 17:57:09 by mlahrach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/parsing.h"
 
@@ -61,13 +72,6 @@ bool	check_validity_of_map(t_mapp *map)
 
 bool	check_validity_of_textures(t_components *comps)
 {
-	// comps->west_texture = mlx_load_png(comps->path_to_west_texture);
-	// comps->east_texture = mlx_load_png(comps->path_to_east_texture);
-	// comps->north_texture = mlx_load_png(comps->path_to_north_texture);
-	// comps->south_texture = mlx_load_png(comps->path_to_south_texture);
-	// if (!comps->west_texture | !comps->east_texture
-	// 	| !comps->north_texture | !comps->south_texture)
-	// 	return (false);
 	(void)comps;
 	return (true);
 }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 17:54:16 by mlahrach          #+#    #+#             */
+/*   Updated: 2025/04/09 18:01:27 by mlahrach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/parsing.h"
 
@@ -52,6 +63,11 @@ t_type	return_nd_free(t_type this, char **arr)
 
 int	get_color(t_colors *color)
 {
-    int alpha = 255; // Fully opaque
-    return ((alpha << 24) | (color->red << 16) | (color->green << 8) | color->blue);
+	int	alpha;
+
+	alpha = 255;
+	return ((alpha << 24)
+		| (color->red << 16)
+		| (color->green << 8)
+		| color->blue);
 }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser5.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 17:54:30 by mlahrach          #+#    #+#             */
+/*   Updated: 2025/04/09 17:59:11 by mlahrach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/parsing.h"
 
@@ -64,7 +75,7 @@ bool	treat_middle_line(char *line)
 bool	treat_first_and_last(char *line)
 {
 	if (!*line)
-		return(false);
+		return (false);
 	while (*line && *line == ' ')
 		line++;
 	while (*line)
