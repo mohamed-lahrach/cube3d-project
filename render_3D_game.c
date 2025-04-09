@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:10:53 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/08 20:38:31 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:39:25 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	render_game_in_3d(t_game *game)
 {
 	t_ray			ray;
 	float			correct_distance;
-	t_draw_params	params;
 
 	int (wall_strip_height), (wall_top_pixel), (wall_bottom_pixel), (i);
 	i = -1;

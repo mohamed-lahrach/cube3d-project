@@ -68,5 +68,6 @@ bool	check_validity_of_textures(t_components *comps)
 	// if (!comps->west_texture | !comps->east_texture
 	// 	| !comps->north_texture | !comps->south_texture)
 	// 	return (false);
+	(void)comps;
 	return (true);
 }
