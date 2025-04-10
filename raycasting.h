@@ -6,23 +6,22 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/09 18:20:53 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:43:22 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYCASTING_H
 # define RAYCASTING_H
 
-# include "inc/cub3d.h"
-# include "inc/parsing.h"
-# include "minilibx-linux/mlx.h"
+# include "./inc/cub3d.h"
+# include "./inc/parsing.h"
+# include "./minilibx-linux/mlx.h"
 # include <float.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 
 # define TILE_SIZE 64
-# define MIN(a, b) ((a) < (b) ? (a) : (b))
 # define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 800
 # define GRAY_COLOR 0xCCCCCC
@@ -106,7 +105,6 @@ typedef struct s_draw_info
 	int					pixel;
 }						t_draw_info;
 
-// Add this to raycasting.h
 typedef struct s_draw_params
 {
 	int					start_y;
@@ -183,6 +181,8 @@ int						get_texture_index(t_ray *ray);
 int						get_texture_x_coord(t_ray *ray, int tex_width);
 float					get_texture_start_position(int wall_top,
 							int true_wall_height, float tex_step);
-t_draw_params			init_draw_params(int start_y, int end_y,
-							int ray_index, int color);
+t_draw_params			init_draw_params(int start_y, int end_y, int ray_index,
+							int color);
+void					free_loaded_textures(t_game *game);
+void					free_map_grid(char **grid);
 #endif

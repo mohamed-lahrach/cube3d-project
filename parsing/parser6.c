@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:54:40 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/09 17:56:06 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:07:02 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ bool	retrieve_map(int fd, t_components *comps, char *line)
 	{
 		line = get_next_line(fd);
 		if (!line)
+		{
 			break ;
+		}
 		temp = remove_newline(line);
 		free_and_set_to_null(&line);
 		if (detect_type(temp) != MAP)

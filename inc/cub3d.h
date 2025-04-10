@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 01:37:00 by mlahrach          #+#    #+#             */
+/*   Updated: 2025/04/10 01:37:03 by mlahrach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -8,7 +19,6 @@
 # include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
-
 
 typedef struct s_player_parser
 {
@@ -23,7 +33,7 @@ typedef struct s_map
 
 typedef struct s_game_parser
 {
-	t_player_parser		player;
+	t_player_parser	player;
 	t_map			map;
 	t_components	*components;
 	int				ceiling_color;

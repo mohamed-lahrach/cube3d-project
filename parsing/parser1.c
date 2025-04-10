@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:54:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/09 17:55:52 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:22:15 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ void	free_mapp(t_mapp **head)
 	*head = NULL;
 }
 
-// void	free_mlx_texture(mlx_texture_t **texture)
-// {
-// 	free((*texture)->pixels);
-// 	free(*texture);
-// 	*texture = NULL;
-// }
-
 void	free_comps(t_components *comps)
 {
 	if (comps->ceiling_color)
@@ -62,6 +55,13 @@ void	free_comps(t_components *comps)
 		free_and_set_to_null(&comps->path_to_west_texture);
 }
 
+void	print_free(char *str, t_components *comps)
+{
+	ft_putstr_fd(str, 2);
+	free_comps(comps);
+	get_next_line(500);
+}
+
 bool	parse_the_file(char *path, t_components *comps)
 {
 	int	fd;
@@ -72,20 +72,17 @@ bool	parse_the_file(char *path, t_components *comps)
 		return (false);
 	if (!fill_it(fd, comps))
 	{
-		ft_putstr_fd("Error\nfailed filling components\n", 2);
-		free_comps(comps);
+		print_free("Error\nfailed filling components\n", comps);
 		return (false);
 	}
 	if (!check_validity_of_textures(comps))
 	{
-		ft_putstr_fd("Error\ninvalid texture\n", 2);
-		free_comps(comps);
+		print_free("Error\ninvalid texture\n", comps);
 		return (false);
 	}
 	if (!check_validity_of_map(comps->map))
 	{
-		ft_putstr_fd("Error\ninvalid map\n", 2);
-		free_comps(comps);
+		print_free("Error\ninvalid map\n", comps);
 		return (false);
 	}
 	return (true);

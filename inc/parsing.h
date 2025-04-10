@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 01:38:28 by mlahrach          #+#    #+#             */
+/*   Updated: 2025/04/10 01:38:35 by mlahrach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
@@ -5,8 +16,8 @@
 # include "../get_next_line/get_next_line.h"
 # include "../lib/libft/libft.h"
 # include <stdbool.h>
+# include <stdio.h>
 # include <string.h>
-#include <stdio.h>
 
 typedef enum e_types
 {
@@ -63,7 +74,6 @@ typedef struct s_components_list
 	char			*path_to_south_texture;
 	t_mapp			*map;
 }					t_components;
-
 
 bool				valid_path(char *path);
 int					open_file_and_return_fd(char *path);

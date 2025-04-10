@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 01:10:43 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/09 18:21:13 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:24:18 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 int	close_window(void *param)
 {
 	t_game	*game;
+
 	game = (t_game *)param;
 	free_comps(game->components);
-	mlx_destroy_window(game->mlx, game->win);
+	free_map_grid(game->map.grid);
 	mlx_destroy_image(game->mlx, game->img);
+	mlx_destroy_window(game->mlx, game->win);
+	free_loaded_textures(game);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
 	exit(0);
 }
 
@@ -39,8 +44,12 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_ESC)
 	{
 		free_comps(game->components);
-		mlx_destroy_window(game->mlx, game->win);
+		free_map_grid(game->map.grid);
 		mlx_destroy_image(game->mlx, game->img);
+		mlx_destroy_window(game->mlx, game->win);
+		free_loaded_textures(game);
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
 		exit(0);
 	}
 	return (0);

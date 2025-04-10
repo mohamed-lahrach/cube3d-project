@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samsaafi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 13:47:38 by samsaafi          #+#    #+#             */
-/*   Updated: 2023/12/10 13:47:41 by samsaafi         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:18:36 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ char	*get_next_line(int fd)
 	static char	*stash;
 	char		*line;
 
+	if (fd == 500)
+	{
+		free(stash);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!stash)

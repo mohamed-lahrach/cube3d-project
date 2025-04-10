@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:53:21 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/09 17:55:49 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 00:46:55 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ bool	fill_it(int fd, t_components *comps)
 	{
 		line = get_next_line(fd);
 		if (!line)
+		{
+			get_next_line(500);
 			break ;
+		}
 		if (!process_line(fd, comps, line))
 			return (false);
 	}
