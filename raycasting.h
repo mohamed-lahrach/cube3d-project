@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/10 01:43:22 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:56:13 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include "./inc/cub3d.h"
 # include "./inc/parsing.h"
-# include "./minilibx-linux/mlx.h"
-# include <float.h>
+# include "/usr/local/include/mlx.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 
+# define LARGE_FLOAT 1e30
 # define TILE_SIZE 64
 # define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 800
@@ -36,13 +36,16 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 # define M_PI 3.14159265358979323846
-# define FOV_ANGLE (60 * (M_PI / 180))
 # define WALL_STRIP_WIDTH 1
-# define NUM_RAYS (SCREEN_WIDTH / WALL_STRIP_WIDTH)
-# define DIST_PROJ_PLANE ((SCREEN_WIDTH / 2) / tan(FOV_ANGLE / 2))
+# define FOV_ANGLE 1.0471975512  /* 60 degrees in radians (pre-calculated) */
+/* Pre-calculated: SCREEN_WIDTH / WALL_STRIP_WIDTH */
+# define NUM_RAYS 1200
+/* Pre-calculated: (SCREEN_WIDTH / 2) / tan(FOV_ANGLE / 2) */
+# define DIST_PROJ_PLANE 1040
 # define MINIMAP_SCALE_FACTOR 0.3
 # define HORIZONTAL 0
 # define VERTICAL 1
+
 typedef struct s_player
 {
 	float				x;
@@ -141,14 +144,6 @@ typedef struct s_game
 }						t_game;
 
 int						close_window(void *param);
-void					draw_square(char *img_data, int x, int y,
-							int mini_map_tile_with, int mini_map_tile_height,
-							int color, int size_line, int bpp);
-void					draw_line(char *img_data, int x0, int y0, int x1,
-							int y1, int color, int size_line, int bpp,
-							float alpha);
-void					draw_circle(char *img_data, int x0, int y0, int radius,
-							int color, int size_line, int bpp);
 void					render_player(t_game *game);
 int						key_press(int keycode, t_game *game);
 int						key_release(int keycode, t_game *game);

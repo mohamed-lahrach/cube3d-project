@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:54:20 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/09 17:57:09 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:29:40 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,5 @@ bool	check_validity_of_map(t_mapp *map)
 		return (false);
 	if (!check_player_position(map) || !valid_map(map))
 		return (false);
-	return (true);
-}
-
-bool	check_validity_of_textures(t_components *comps)
-{
-	(void)comps;
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:54:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/10 01:22:15 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:29:49 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,6 @@ bool	parse_the_file(char *path, t_components *comps)
 	if (!fill_it(fd, comps))
 	{
 		print_free("Error\nfailed filling components\n", comps);
-		return (false);
-	}
-	if (!check_validity_of_textures(comps))
-	{
-		print_free("Error\ninvalid texture\n", comps);
 		return (false);
 	}
 	if (!check_validity_of_map(comps->map))

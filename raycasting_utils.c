@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 00:59:58 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/03/09 01:08:08 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:41:21 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ float	get_distance(t_intercept_data intercept_data, t_game *game)
 	if (found_wall)
 		return (sqrt(pow(hit_x - player_x, 2) + pow(hit_y - player_y, 2)));
 	else
-		return (FLT_MAX);
+		return (LARGE_FLOAT);
 }
 
 void	select_closest_hit(t_ray *ray, t_game *game, double vert_distance,
