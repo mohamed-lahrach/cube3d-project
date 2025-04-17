@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:38:59 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/10 16:56:13 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:48:12 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define LARGE_FLOAT 1e30
 # define TILE_SIZE 64
+# define MINIMAP_SCALE_FACTOR 0.3
+# define minimapwidth 
 # define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 800
 # define GRAY_COLOR 0xCCCCCC
@@ -42,7 +44,6 @@
 # define NUM_RAYS 1200
 /* Pre-calculated: (SCREEN_WIDTH / 2) / tan(FOV_ANGLE / 2) */
 # define DIST_PROJ_PLANE 1040
-# define MINIMAP_SCALE_FACTOR 0.3
 # define HORIZONTAL 0
 # define VERTICAL 1
 
@@ -157,7 +158,6 @@ void					draw_rays(t_game *game, float factor);
 void					render_game_in_3d(t_game *game);
 int						game_loop(t_game *game);
 void					init_game(t_game *game, t_pos pos);
-void					render_minimap(t_game *game);
 void					show_data_of_rays(t_game *game);
 void					initialize_player_position(t_game *game, t_map *map);
 void					calculate_check_coordinates(int direction,
@@ -180,4 +180,13 @@ t_draw_params			init_draw_params(int start_y, int end_y, int ray_index,
 							int color);
 void					free_loaded_textures(t_game *game);
 void					free_map_grid(char **grid);
+
+// minimap functions
+void					render_minimap(t_game *game);
+void					draw_circle(char *img_data, int x, int y,
+							int radius, int color, int size_line, int bpp);
+void					draw_line(char *img_data, int x0, int y0, int x1, int y1, int color,
+							int size_line, int bpp, float alpha);
+void 					draw_square(void *img_data, int x, int y, 
+							int width, int height, int color, int size_line, int bpp);
 #endif

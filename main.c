@@ -6,7 +6,7 @@
 /*   By: mlahrach <mlahrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 05:39:10 by mlahrach          #+#    #+#             */
-/*   Updated: 2025/04/10 01:27:59 by mlahrach         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:38:11 by mlahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	init_game(t_game *game, t_pos pos)
 	normalize_map(&game->map);
 	game->rows = get_num_rows(game->map.grid);
 	game->columns = get_num_columns(game->map.grid);
-	game->player = (t_player){.radius = 3, .move_speed = 1.6,
+	game->player = (t_player){.radius = 3, .move_speed = 1.8,
 		.rotation_angle = M_PI / 2, .turn_direction = 0, .walk_direction = 0,
-		.strafe_direction = 0, .rotation_speed = 0.4 * (M_PI / 180), .x = pos.x,
+		.strafe_direction = 0, .rotation_speed = 0.6 * (M_PI / 180), .x = pos.x,
 		.y = pos.y};
 	initialize_player_position(game, &game->map);
 	game->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -88,6 +88,7 @@ int	game_loop(t_game *game)
 	update_player(game);
 	cast_all_rays(game);
 	render_game_in_3d(game);
+	render_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
